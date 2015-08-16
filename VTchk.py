@@ -55,7 +55,7 @@ def vtreScanMD5(i):
 def vtMD5(i):
 	try:
 		url = "https://www.virustotal.com/vtapi/v2/file/report"
-		parameters = {"resource": i, "apikey": VTAPIKEY}
+		parameters = {"resource": i, "apikey": VTAPIKEY, "allinfo": "1"}
 		data = urllib.urlencode(parameters)
 		req = urllib2.Request(url, data)
 		response = urllib2.urlopen(req)
