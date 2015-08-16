@@ -153,7 +153,7 @@ def cRelationship(ltype, lid, rtype, rid, reltype):
 def main():
 	parser = optparse.OptionParser('usage python critterz.py <-m mode> <-f filename> [-s intelSource] [-d feedDescription] [-b bucket] [ -q ] \n\n example: python critterz.py -m ip -f ip.txt -s TRT -d "Evil related" -b EvilMalware -c EvilCampaign')
 	
-	parser.add_option('-m', '--mode', dest='mode', type='string', help='required specify CRITs mode of either < domain | ip | md5 >')
+	parser.add_option('-m', '--mode', dest='mode', type='string', help='required specify CRITs mode of either < domain | ip | hash >')
 	parser.add_option('-f', '--filename', dest='filename', type='string', help='required specify filename')
 	parser.add_option('-s', '--source', dest='source', type='string', help='optional specify source of intel (Defaults to TRT)')
 	parser.add_option('-d', '--description', dest='description', type='string', help='optional specify feed description (Defaults to bucket entry or Unknown if bucket is empty)')
@@ -267,7 +267,7 @@ def main():
 				webbrowser.open(url,new=new)
 				time.sleep(vSleep)
 
-	elif cm == "md5":
+	elif cm == "hash":
 		a = []
 		ftype = str(raw_input('Enter filetype [pe]: '))
 		malname = str(raw_input('Enter malware name [Trojan.Win.EvilName.fss1]: '))
