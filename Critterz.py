@@ -57,7 +57,6 @@ def cDomain(i, src, buck):
 		r = requests.get(url, params=params, verify=False, timeout=10)
 		parsed = json.loads(r.content)
 		print json.dumps(parsed, indent=4, sort_keys=True)
-		vtgetResultsDomain(i)
 	except Exception as e:
 		print 'Exception:', e.message
 
@@ -82,15 +81,11 @@ def cIP(i, src, buck):
 		r = requests.get(url, params=params, verify=False, timeout=10)
 		parsed = json.loads(r.content)
 		print json.dumps(parsed, indent=4, sort_keys=True)
-		vtgetResultsIP(i)
 	except Exception as e:
 		print 'Exception:', e.message
 
 def cmd5(i, src, buck):
 	try:
-		vtreScanMD5(i)
-		time.sleep(2)
-		i = vtgetResultsMD5(i)
 		url = 'https://' + SERVER + '/api/v1/samples/'
 		data = {
 		'api_key': APIKEY,

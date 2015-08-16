@@ -20,6 +20,7 @@ import time
 import urllib
 import urllib2
 import os
+import ssl
 
 try:
 	import simplejson
@@ -94,7 +95,7 @@ def vtDomain(i):
 def vtURL(i):
 	try:
 		url = "https://www.virustotal.com/vtapi/v2/url/report"
-		parameters = {"resource": i, "apikey": APIKEY}
+		parameters = {"resource": i, "apikey": VTAPIKEY}
 		data = urllib.urlencode(parameters)
 		req = urllib2.Request(url, data)
 		response = urllib2.urlopen(req)
@@ -137,20 +138,24 @@ def VTNet(i):
 
 def VTDownload(i):
 	try:
-		params = {'apikey': VTAPIKEY, 'resource': i}
-		response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
-		downloaded_file = response.content
+		URL = "https://www.virustotal.com/intelligence/download/?hash=" + i + "&apikey=" + VTAPIKEY
+		c = ssl._create_unverified_context()
+		f = vdir + i
+		print "Downloading to " + f
+		urllib.urlretrieve(URL, f, context=c)
 	except Exception as e:
 		print 'Exception:', e.message
 
 #MAIN
 def main():
 	global VTAPIKEY
+	global vdir
 
-	parser = optparse.OptionParser('usage python VTChk.py <-m mode> <-f filename>')
+	parser = optparse.OptionParser('usage python VTChk.py <-m mode> <-f filename> [-d directory]')
 	
 	parser.add_option('-m', '--mode', dest='mode', type='string', help='mode < domain | ip | hash | url >')
 	parser.add_option('-f', '--filename', dest='filename', type='string', help='required specify filename')
+	parser.add_option('-d', '--dir', dest='directory', type='string', help='optional specify directory if you want to download files')
 
 	(options, args) = parser.parse_args()
 
@@ -160,6 +165,7 @@ def main():
 
 	cm = options.mode
 	fn = options.filename
+	vdir = options.directory
 
 	if not os.path.exists("vt.conf"):
 		vtfn = open("vt.conf", "w+")
@@ -170,6 +176,13 @@ def main():
 	vtfn = open("vt.conf")
 	VTAPIKEY = vtfn.readline().rstrip("\n")
 	vtfn.close()
+
+	if vdir == None:
+		vdl = 0
+	else:
+		if not os.path.exists(vdir):
+			os.mkdir(vdir)
+		vdl = 1
 
 	requests.packages.urllib3.disable_warnings()
 	fn = open(fn)
@@ -209,8 +222,9 @@ def main():
 			time.sleep(vSleep)
 			VTNet(i)
 			time.sleep(vSleep)
-			VTDownload(i)
-			time.sleep(vSleep)
+			if vdl == 1:
+				VTDownload(i)
+				time.sleep(vSleep)
 
 		print "\n *** KASPERSKY Results*** \n"
 		for key in dict:
