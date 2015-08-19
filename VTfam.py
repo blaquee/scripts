@@ -32,7 +32,7 @@ def main():
 	parser.add_option('-f', '--family', dest='vfamily', type='string', help='required specify malware family')
 	parser.add_option('-e', '--engine', dest='vengine', type='string', help='optional specify AV Engine Default: [engines]')
 	parser.add_option('-t', '--type', dest='vtype', type='string', help='optional specify type Default: [peexe]')
-	parser.add_option('-d', '--days', dest='vdate', type='string', help='optional days after first submission Default: [1]')
+	parser.add_option('-d', '--days', dest='vdate', type='int', help='optional days after first submission Default: [1]')
 
 	(options, args) = parser.parse_args()
 
@@ -51,11 +51,10 @@ def main():
 		vtype = "peexe"
 	else:
 		vtype = options.vtype
-
 	if (options.vdate == None):
 		vdate = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%dT00:00:00') + "+"
 	else:
-		vdate = (datetime.date.today() - datetime.timedelta(days=options.vdate)).strftime('%Y%m%dT00:00:00') + "+"
+		vdate = (datetime.date.today() - datetime.timedelta(days=options.vdate)).strftime('%Y-%m-%dT00:00:00') + "+"
 
 	if not os.path.exists("vt.conf"):
 		vtfn = open("vt.conf", "w+")
@@ -66,7 +65,7 @@ def main():
 	vtfn = open("vt.conf")
 	VTAPIKEY = vtfn.readline().rstrip("\n")
 	vtfn.close()
-
+	print "[+] Searching " + vengine + ": " + vfamily + " type: " + vtype + " date: " + vdate
 	VTSearch(vfamily, vengine, vtype, vdate)
 
 if __name__ == '__main__':

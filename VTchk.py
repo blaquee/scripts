@@ -156,6 +156,7 @@ def main():
 	parser.add_option('-m', '--mode', dest='mode', type='string', help='mode < domain | ip | hash | url >')
 	parser.add_option('-f', '--filename', dest='filename', type='string', help='required specify filename')
 	parser.add_option('-d', '--dir', dest='directory', type='string', help='optional specify directory if you want to download files')
+	parser.add_option("-r", action="store_true", dest="rescan", help="optional request a rescan of hash")
 
 	(options, args) = parser.parse_args()
 
@@ -212,8 +213,9 @@ def main():
 	elif cm == "hash":
 		for i in fn:
 	   		i = i.rstrip("\n")
-	   		vtreScanMD5(i)
-			time.sleep(vSleep)
+			if (options.rescan == True):
+	   			vtreScanMD5(i)
+				time.sleep(vSleep)
 			vtMD5(i)
 			time.sleep(vSleep)
 			VTCluster(i)
