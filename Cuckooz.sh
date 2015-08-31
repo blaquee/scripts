@@ -2,10 +2,10 @@
 
 SERVER="$(sed -n 1,1p cuckoo.conf)"
 PORT="$(sed -n 2,2p cuckoo.conf)"
-DIR="$(sed -n 3,3p cuckoo.conf)"
 
 if [ "$1" = "-s" ]
 then
+	DIR="$2"
 	echo "Submitting Files to Cuckoo from $DIR/*"
 	for file in $DIR/*
 	do
@@ -52,5 +52,5 @@ elif [ "$1" = "-status" ]
 then 
 	curl -k --connect-timeout 10 https://$SERVER:$PORT/api/cuckoo/status/
 else
-	echo "usage: ./cuckoo_submit.sh [ -s submits files in a directory to cuckoo | -p STARTID STOPID downloads pcaps from start id to stop id | -i STARTID STOPID outputs detailed potential IOCs | -status Get Cuckoo status ]"
+	echo "usage: ./cuckoo_submit.sh <-s <directory> submits files in a directory to cuckoo | -p STARTID STOPID downloads pcaps from start id to stop id | -i STARTID STOPID outputs detailed potential IOCs | -status Get Cuckoo status >"
 fi

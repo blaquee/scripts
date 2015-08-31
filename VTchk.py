@@ -61,6 +61,7 @@ def vtMD5(i):
 		response = urllib2.urlopen(req)
 		json_object = response.read()
 		response_dict = json.loads(json_object)
+		print i
 		print json.dumps(response_dict, indent=4, sort_keys=True)
 		vtmd5 = str(response_dict.get("md5",{}))
 		kdetect = str(response_dict.get("scans",{}).get("Kaspersky").get("detected",{}))
@@ -78,6 +79,7 @@ def vtIP(i):
 		parameters = {'ip': i, 'apikey': VTAPIKEY}
 		response = urllib.urlopen('%s?%s' % (url, urllib.urlencode(parameters))).read()
 		response_dict = json.loads(response)
+		print i
 		print json.dumps(response_dict, indent=4, sort_keys=True)
 	except Exception as e:
 		print 'Exception:', e.message
@@ -88,6 +90,7 @@ def vtDomain(i):
 		parameters = {'domain': i, 'apikey': VTAPIKEY}
 		response = urllib.urlopen('%s?%s' % (url, urllib.urlencode(parameters))).read()
 		response_dict = json.loads(response)
+		print i
 		print json.dumps(response_dict, indent=4, sort_keys=True)
 	except Exception as e:
 		print 'Exception:', e.message
@@ -105,6 +108,7 @@ def vtURL(i):
 		else:
 			dict[i] = "CLEAN"
 		json_print = json.loads(json_object)
+		print i
 		print json.dumps(json_print, indent=4, sort_keys=True)
 	except Exception as e:
 		print 'Exception:', e.message
