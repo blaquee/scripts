@@ -81,6 +81,7 @@ import urllib
 import os
 import ssl
 import itertools
+import re
 
 def oSetup():
 	try:
@@ -117,11 +118,38 @@ def oDL(i, f):
 	except Exception as e:
 		print 'Exception:', e.message
 
+def oIP():
+	try:
+		global dir
+		print "[+] Creating master IP list: " + dir + "IP_Master.txt"
+		ipd = []
+		r = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
+		fl = os.listdir(dir)
+		for fln in fl: 
+			with open(dir + fln) as fn:
+				for i in fn:
+					chk = r.findall(i)
+					for c in chk:
+						if c is not None: #and c not in ipd:
+							ipd.append(c)
+		
+		try:
+			fw = open(dir + "IP_Master.txt", "w")
+			for ip in set(ipd):
+				fw.write(ip + "\n")
+		except Exception as e:
+			print 'Exception:', e.message
+
+	except Exception as e:
+		print 'Exception:', e.message
+
+
 def main():
 	global dir
 	dir = os.getcwd() + "/oDL/"
-	oSetup()
-	oTry()
+	#oSetup()
+	#oTry()
+	oIP()
 
 if __name__ == '__main__':
 	main()
