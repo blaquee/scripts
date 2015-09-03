@@ -130,7 +130,7 @@ def oIP():
 				for i in fn:
 					chk = r.findall(i)
 					for c in chk:
-						if c is not None: #and c not in ipd:
+						if c is not None:
 							ipd.append(re.sub(r'(?<=\.)0{1,2}(?=\d)',"",c).lstrip("0"))
 
 		try:
