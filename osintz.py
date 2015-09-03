@@ -131,12 +131,13 @@ def oIP():
 					chk = r.findall(i)
 					for c in chk:
 						if c is not None: #and c not in ipd:
-							ipd.append(c)
-		
+							ipd.append(re.sub(r'(?<=\.)0{1,2}(?=\d)',"",c).lstrip("0"))
+
 		try:
 			fw = open(dir + "IP_Master.txt", "w")
-			for ip in set(ipd):
-				fw.write(ip + "\n")
+			for ip in sorted(set(ipd)):
+				if ip[0] != ".":
+					fw.write(ip + "\n")
 		except Exception as e:
 			print 'Exception:', e.message
 
@@ -147,8 +148,8 @@ def oIP():
 def main():
 	global dir
 	dir = os.getcwd() + "/oDL/"
-	#oSetup()
-	#oTry()
+	oSetup()
+	oTry()
 	oIP()
 
 if __name__ == '__main__':
