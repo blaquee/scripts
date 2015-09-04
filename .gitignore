@@ -1,5 +1,8 @@
 *.conf
 *.txt
+*.zip
 oDL
+VTdl
 Cuckooz.py
 FeedChk.py
+Reviewer*
